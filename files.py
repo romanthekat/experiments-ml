@@ -1,5 +1,4 @@
 from langchain_core.tools import tool
-from notes import _get_notes_folder_path
 
 
 @tool
@@ -25,20 +24,3 @@ def write_permanent_agent_memory(text: str):
     """
     with open("permanent_memory.txt", "w") as file:
         file.write(text)
-
-
-@tool
-def save_to_notes_storage(text: str):
-    """
-    Saves text to notes storage for human operator. Uses a Markdown format.
-    Use when you need to save information to the notes' storage, when asked to 'save it for me' and similar requests.
-    Use #tags if you see it useful, add them in the beginning of the text.
-    :param text: text to write, overriding the note
-    """
-    note_path = f"{_get_notes_folder_path()}/0aa context generated.md"
-    with open(note_path, "w") as file:
-        header = """# 0aa context generated
-#index #flag
-
-"""
-        file.write(header + text)
