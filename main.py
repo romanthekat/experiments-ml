@@ -1,4 +1,4 @@
-from files import read_permanent_memory, write_permanent_memory
+from files import read_permanent_agent_memory, write_permanent_agent_memory, save_to_notes_storage
 from notes import read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
     simple_search_note, get_notes_by_level, read_personal_index_note
 from langchain_ollama import ChatOllama
@@ -32,7 +32,7 @@ def main():
              get_notes_by_level,
              read_by_zk_note_name, find_relevant_notes_by_zk_note_name, simple_search_note,
              add_reminder,
-             read_permanent_memory, write_permanent_memory,
+             read_permanent_agent_memory, write_permanent_agent_memory, save_to_notes_storage,
              ]
 
     agent_executor = create_react_agent(model, tools, checkpointer=memory)
