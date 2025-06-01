@@ -10,7 +10,9 @@ from langchain_core.tools import tool
 @tool
 def add_reminder(title: str, notes: str) -> str:
     """
-    Adds a reminder for the human operator. DO NOT USE SPECIAL SYMBOLS IN 'TITLE' OR 'NOTES'.
+    Adds a reminder for the human operator, using simple text inputs only.
+    This tool supports alphanumeric, spaces, and brackets in 'title' and 'notes' - DO NOT USE SPECIAL SYMBOLS.
+
     :param title: reminder title **without special symbols or punctuation**
     :param notes: reminder notes **without special symbols or punctuation**
     :return: command execution output
