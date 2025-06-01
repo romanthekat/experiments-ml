@@ -3,6 +3,7 @@ import subprocess
 
 from langchain_core.tools import tool
 
+# TODO create custom MCP server out of this below instead (?)
 
 @tool
 def get_notes_by_level(level: int = 1) -> str:
