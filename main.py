@@ -47,9 +47,6 @@ def main():
 
     while True:
         user_message = input("\n>> ")
-        if user_message == "":
-            break
-
         input_to_model = {"messages": [HumanMessage(content=f"{user_message}")]}
         ## direct invoke
         # response = agent_executor.invoke(input_to_model, config=config)
