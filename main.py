@@ -1,4 +1,4 @@
-from notes import read_core_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
+from notes import read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
     simple_search_note, get_notes_by_level
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -24,7 +24,7 @@ def main():
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
-    tools = [read_core_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, simple_search_note,
+    tools = [read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, simple_search_note,
              get_notes_by_level]
 
     agent_executor = create_react_agent(model, tools, checkpointer=memory)

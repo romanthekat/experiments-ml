@@ -7,7 +7,7 @@ from langchain_core.tools import tool
 @tool
 def get_notes_by_level(level: int = 1) -> str:
     """
-    Returns subset of notes, limited by top notes by given level.
+    Returns subset of notes, limited by top notes by given level. Level generally doesn't exceed 4-5.
     :param level: positive number, level of notes to return, f.e. 1 for top level notes, 2 for top level notes of level 1 and level 2, etc.
     :return: list of zk note names in wikilinks format, f.e. "[[0a context]]" or "[[11 blog]]"
     """
@@ -55,10 +55,11 @@ def read_by_zk_note_name(zk_note_name: str) -> str:
 
 
 @tool
-def read_core_context_note():
+def read_context_note():
     """
-    returns the core context note content
-    :return:
+    Returns 'context note' content.
+    'Context note' is an important note, refers to things that are actual 'at the moment overall'.
+    :return: 'context' note content as string
     """
     return read_by_zk_note_name.invoke("0a context")
 
