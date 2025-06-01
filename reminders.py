@@ -3,10 +3,6 @@ import subprocess
 from langchain_core.tools import tool
 
 
-# things:///add?
-#     title=Buy%20milk&
-#     notes=High%20fat
-
 @tool
 def add_reminder(title: str, notes: str) -> str:
     """
