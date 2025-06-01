@@ -37,7 +37,12 @@ def main():
              # WikipediaQueryRun
              ]
 
-    agent_executor = create_react_agent(model, tools, checkpointer=memory)
+    system_message = SystemMessage(
+        content="You are helpful assistant to work with personal notes in zettelkasten markdown files. " \
+                "CALL TOOL 'read_permanent_memory' in the beginning to refresh your permanent memory." \
+                "Be succinct in thinking process.")
+
+    agent_executor = create_react_agent(model, tools, prompt=system_message, checkpointer=memory)
     config = {"configurable": {"thread_id": "some thread id", "recursion_limit": 42}}
 
     while True:
@@ -45,13 +50,7 @@ def main():
         if user_message == "":
             break
 
-        input_to_model = {"messages": [
-            SystemMessage(
-                content="You are helpful assistant to work with personal notes in zettelkasten format within markdown files. "
-                        "Do use read_permanent_memory tool in the very beginning to refresh your permanent memory."
-                        "Be succinct in thinking process."),
-            HumanMessage(content=f"{user_message}")]}
-
+        input_to_model = {"messages": [HumanMessage(content=f"{user_message}")]}
         ## direct invoke
         # response = agent_executor.invoke(input_to_model, config=config)
         # response_messages = response["messages"]
