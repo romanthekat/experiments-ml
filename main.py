@@ -1,5 +1,6 @@
+from files import read_permanent_memory, write_permanent_memory
 from notes import read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
-    simple_search_note, get_notes_by_level
+    simple_search_note, get_notes_by_level, read_personal_index_note
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.tools import tool
@@ -7,7 +8,10 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
-from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_community.tools import DuckDuckGoSearchRun, BraveSearch, WikipediaQueryRun
+from langchain_community.tools import FileSearchTool, ReadFileTool
+
+from reminders import add_reminder
 
 
 def print_in_color(text: str) -> None:
@@ -24,11 +28,15 @@ def main():
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
-    tools = [read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, simple_search_note,
-             get_notes_by_level]
+    tools = [read_context_note, read_personal_index_note,
+             get_notes_by_level,
+             read_by_zk_note_name, find_relevant_notes_by_zk_note_name, simple_search_note,
+             add_reminder,
+             read_permanent_memory, write_permanent_memory,
+             ]
 
     agent_executor = create_react_agent(model, tools, checkpointer=memory)
-    config = {"configurable": {"thread_id": "some thread id"}}
+    config = {"configurable": {"thread_id": "some thread id", "recursion_limit": 42}}
 
     while True:
         user_message = input("\n>> ")
@@ -37,7 +45,9 @@ def main():
 
         input_to_model = {"messages": [
             SystemMessage(
-                content="You are helpful assistant to work with personal notes in zettelkasten format within markdown files. Be succinct in thinking process."),
+                content="You are helpful assistant to work with personal notes in zettelkasten format within markdown files. "
+                        "Do use read_permanent_memory tool in the very beginning to refresh your permanent memory."
+                        "Be succinct in thinking process."),
             HumanMessage(content=f"{user_message}")]}
 
         ## direct invoke
