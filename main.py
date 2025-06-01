@@ -1,5 +1,3 @@
-import os
-
 from notes import read_core_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
     simple_search_note, get_notes_by_level
 from langchain_ollama import ChatOllama
@@ -39,7 +37,7 @@ def main():
 
         input_to_model = {"messages": [
             SystemMessage(
-                content="You are helpful assistant, and always try to help. Be succinct in thinking process."),
+                content="You are helpful assistant to work with personal notes in zettelkasten format within markdown files. Be succinct in thinking process."),
             HumanMessage(content=f"{user_message}")]}
 
         ## direct invoke

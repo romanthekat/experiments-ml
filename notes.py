@@ -24,7 +24,7 @@ def simple_search_note(text: str) -> str:
     :return: list of zk note names, f.e. "0a context" or "14.2 deutsch language
     """
     folder_to_search_in = _get_notes_folder_path()
-    command = f"ag '{text}' -li '{folder_to_search_in}'"
+    command = f'ag "{text}" -l -i "{folder_to_search_in}"'
     output = subprocess.check_output(command, shell=True, text=True)
     return output.replace(".md", "")
 
