@@ -53,7 +53,12 @@ def read_by_zk_note_name(zk_note_name: str) -> str:
     :return: note content as string
     """
     file_path = _get_note_path(zk_note_name)
-    return _read_text_file(file_path)
+    note_content = _read_text_file(file_path)
+
+    if "#noai" in note_content:
+        return "this note content can't be accessed due to #noai tag."
+
+    return note_content
 
 
 @tool

@@ -24,7 +24,7 @@ def main():
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
-        temperature=0.42,  # lower then recommended default 0.6
+        temperature=0.2,  # lower then recommended default 0.6
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
