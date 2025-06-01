@@ -23,7 +23,7 @@ def print_in_color(text: str) -> None:
 def main():
     ## main logic
     model = ChatOllama(
-        model="qwen3:30b-a3b",
+        model="qwen3:30b-a3b-q8_0",
         temperature=0.6,
     )
     # search = DuckDuckGoSearchRun()
