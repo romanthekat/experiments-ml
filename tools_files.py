@@ -1,5 +1,6 @@
 from langchain_core.tools import tool
 
+# Somewhat deprecated, see mcp_server.py instead
 
 @tool
 def read_permanent_agent_memory():

@@ -4,6 +4,8 @@ import subprocess
 from langchain_core.tools import tool
 
 
+# Somewhat deprecated, see mcp_server.py instead
+
 @tool
 def read_context_note():
     """
@@ -79,19 +81,6 @@ def read_by_zk_note_name(zk_note_name: str) -> str:
     return note_content
 
 
-def _get_notes_folder_path():
-    return os.getenv("NOTES_PATH")
-
-
-def _get_note_path(note_name: str):
-    return f"{_get_notes_folder_path()}/{note_name}.md"
-
-
-def _read_text_file(file_path: str) -> str:
-    with open(file_path, "r") as file:
-        return file.read()
-
-
 @tool
 def save_to_notes_storage(text: str):
     """
@@ -104,3 +93,16 @@ def save_to_notes_storage(text: str):
     with open(note_path, "w") as file:
         header = """# 0aa context generated #index #flag"""
         file.write(header + text)
+
+
+def _get_notes_folder_path():
+    return os.getenv("NOTES_PATH")
+
+
+def _get_note_path(note_name: str):
+    return f"{_get_notes_folder_path()}/{note_name}.md"
+
+
+def _read_text_file(file_path: str) -> str:
+    with open(file_path, "r") as file:
+        return file.read()
