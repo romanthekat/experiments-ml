@@ -8,6 +8,7 @@ dependencies = [
     "duckduckgo-search>=8.0.2",
     "langchain-community>=0.3.24",
     "langchain-core>=0.3.63",
+    "langchain-mcp-adapters>=0.1.7",
     "langchain-ollama>=0.3.3",
     "langgraph>=0.4.7",
     "mcp[cli]>=1.9.4",

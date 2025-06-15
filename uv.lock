@@ -244,6 +244,7 @@ dependencies = [
     { name = "duckduckgo-search" },
     { name = "langchain-community" },
     { name = "langchain-core" },
+    { name = "langchain-mcp-adapters" },
     { name = "langchain-ollama" },
     { name = "langgraph" },
     { name = "mcp", extra = ["cli"] },
@@ -255,6 +256,7 @@ requires-dist = [
     { name = "duckduckgo-search", specifier = ">=8.0.2" },
     { name = "langchain-community", specifier = ">=0.3.24" },
     { name = "langchain-core", specifier = ">=0.3.63" },
+    { name = "langchain-mcp-adapters", specifier = ">=0.1.7" },
     { name = "langchain-ollama", specifier = ">=0.3.3" },
     { name = "langgraph", specifier = ">=0.4.7" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.9.4" },
@@ -487,6 +489,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/04/8a/d08c83195d1ef26c42728412ab92ab08211893906b283abce65775e21327/langchain_core-0.3.65.tar.gz", hash = "sha256:54b5e0c8d9bb405415c3211da508ef9cfe0acbe5b490d1b4a15664408ee82d9b", size = 558557, upload-time = "2025-06-10T20:08:28.94Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/54/f0/31db18b7b8213266aed926ce89b5bdd84ccde7ee2edf4cab14e3dd2bfcf1/langchain_core-0.3.65-py3-none-any.whl", hash = "sha256:80e8faf6e9f331f8ef728f3fe793549f1d3fb244fcf9e1bdcecab6a6f4669394", size = 438052, upload-time = "2025-06-10T20:08:27.393Z" },
+]
+
+[[package]]
+name = "langchain-mcp-adapters"
+version = "0.1.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "langchain-core" },
+    { name = "mcp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/01/5f/f6d2b724f7100bd53e4413a72dd7b77a61e5284549c9de63ba043e63d163/langchain_mcp_adapters-0.1.7.tar.gz", hash = "sha256:b5d0ab520211d8c12cfc4df83fd6335f8197a3557ee7ca4f14e3380846610535", size = 20023, upload-time = "2025-06-05T20:18:39.425Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/01/05/b6cf2f4651c9429b374c8837117ecc0619bfb8b6e106ce8390f2c932a293/langchain_mcp_adapters-0.1.7-py3-none-any.whl", hash = "sha256:6b3ded5f51b311e67cefa87b500f776c454caf2269d2eae4b2338ecec19a9258", size = 13318, upload-time = "2025-06-05T20:18:38.477Z" },
 ]
 
 [[package]]

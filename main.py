@@ -10,19 +10,33 @@ from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_community.tools import DuckDuckGoSearchRun, BraveSearch, WikipediaQueryRun
 from langchain_community.tools import FileSearchTool, ReadFileTool
+from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
+import asyncio
 
 from reminders import add_reminder
 
+mcp_client = MultiServerMCPClient(
+    {
+        # "math": {
+        #     "command": "python",
+        #     # Make sure to update to the full absolute path to your math_server.py file
+        #     "args": ["/path/to/math_server.py"],
+        #     "transport": "stdio",
+        # },
+        "r-notes": {
+            # make sure you start your weather server on port 8000
+            "url": "http://localhost:8000/mcp/",
+            "transport": "streamable_http",
+        }
+    }
+)
 
-def print_in_color(text: str) -> None:
-    # 32 == green
-    # 34 == blue
-    print(f"\033[34m{text}\033[0m")
 
-
-def main():
+async def main():
     load_dotenv()
+
+    mcp_tools = await mcp_client.get_tools()
 
     ## main logic
     model = ChatOllama(
@@ -31,14 +45,16 @@ def main():
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
-    tools = [read_context_note, read_personal_index_note,
-             get_notes_by_level,
-             read_by_zk_note_name, find_relevant_notes_by_zk_note_name, simple_search_note,
-             add_reminder,
-             read_permanent_agent_memory, write_permanent_agent_memory, save_to_notes_storage,
-             # internet tools start here
-             # WikipediaQueryRun
-             ]
+    tools = [
+        # read_context_note, read_personal_index_note,
+        # get_notes_by_level,
+        # read_by_zk_note_name, find_relevant_notes_by_zk_note_name, simple_search_note,
+        # add_reminder,
+        # read_permanent_agent_memory, write_permanent_agent_memory, save_to_notes_storage,
+        # internet tools start here
+        # WikipediaQueryRun
+        *mcp_tools
+    ]
 
     system_message = SystemMessage(
         content="You are helpful assistant to work with personal notes in zettelkasten markdown files. " \
@@ -58,7 +74,7 @@ def main():
         #     message.pretty_print()
 
         ## streaming
-        for step in agent_executor.stream(
+        async for step in agent_executor.astream(
                 input_to_model,
                 config,
                 stream_mode="values",
@@ -84,4 +100,10 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
+
+
+def print_in_color(text: str) -> None:
+    # 32 == green
+    # 34 == blue
+    print(f"\033[34m{text}\033[0m")

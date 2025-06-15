@@ -1,5 +1,6 @@
 import subprocess
 
+from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 
 from notes import _get_notes_folder_path, _get_note_path, _read_text_file
@@ -7,6 +8,22 @@ from notes import _get_notes_folder_path, _get_note_path, _read_text_file
 mcp = FastMCP("r-notes")
 
 
+@mcp.tool()
+def add_reminder(title: str, notes: str) -> str:
+    """
+    Adds a reminder for the human operator, using simple text inputs only.
+    This tool supports alphanumeric, spaces, and brackets in 'title' and 'notes' - DO NOT USE OTHER SPECIAL SYMBOLS.
+    Slashes, ampersands, quotes are not supported!
+
+    :param title: reminder title **without special symbols or punctuation**. for example: check [[0 inbox]]
+    :param notes: reminder notes **without special symbols or punctuation**
+    :return: command execution output
+    """
+    url_to_add_note = f'open \"things:///add?title={title}&notes={notes}&tags=agent\"'
+    return subprocess.check_output(url_to_add_note, shell=True, text=True)
+
+
+## High level Notes
 @mcp.tool()
 def read_context_note():
     """
@@ -27,6 +44,7 @@ def read_personal_index_note():
     return read_by_zk_note_name("10 Σ personal index")
 
 
+# Permanent memory
 @mcp.tool()
 def read_permanent_agent_memory():
     """
@@ -52,6 +70,7 @@ def write_permanent_agent_memory(text: str):
         file.write(text)
 
 
+# Lower level notes tools
 @mcp.tool()
 def get_notes_by_level(level: int = 1) -> str:
     """
@@ -122,8 +141,11 @@ def save_to_notes_storage(text: str):
 
 
 if __name__ == "__main__":
+    load_dotenv()
+
     # Initialize and run the server
-    mcp.run(transport='stdio')
+    mcp.run(transport='streamable-http')
+    # mcp.run(transport='stdio')
 
 ## not supported in practice -> skip
 # @mcp.resource("echo://{message}")
