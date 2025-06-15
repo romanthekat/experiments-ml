@@ -5,4 +5,6 @@ Agent can access notes, has simple permanent memory, access to a single note fil
 
 ## Usage
 `uv sync`  
-`python ./main.py`  
+
+`uv run mcp_server.py`
+`uv run main.py`  
