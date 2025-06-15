@@ -3,7 +3,7 @@ import subprocess
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 
-from notes import _get_notes_folder_path, _get_note_path, _read_text_file
+from tools_notes import _get_notes_folder_path, _get_note_path, _read_text_file
 
 mcp = FastMCP("r-notes")
 

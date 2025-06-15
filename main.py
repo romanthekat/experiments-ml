@@ -1,5 +1,5 @@
-from files import read_permanent_agent_memory, write_permanent_agent_memory
-from notes import read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
+from tools_files import read_permanent_agent_memory, write_permanent_agent_memory
+from tools_notes import read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
     simple_search_note, get_notes_by_level, read_personal_index_note, save_to_notes_storage
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -25,7 +25,7 @@ mcp_client = MultiServerMCPClient(
         #     "transport": "stdio",
         # },
         "r-notes": {
-            # make sure you start your weather server on port 8000
+            # make sure you start mcp server on port 8000 using `uv run mcp_server.py`
             "url": "http://localhost:8000/mcp/",
             "transport": "streamable_http",
         }
