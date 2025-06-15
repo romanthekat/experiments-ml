@@ -7,5 +7,5 @@ Agent can access notes, has simple permanent memory, access to a single note fil
 `cp .env.example .env`  
 `uv sync`  
 
-`uv run mcp_server.py`  
 `uv run main.py`  
+`uv run mcp_server.py` if mcp server is in `'streamable-http` transport mode
