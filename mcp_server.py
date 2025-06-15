@@ -144,8 +144,8 @@ if __name__ == "__main__":
     load_dotenv()
 
     # Initialize and run the server
-    mcp.run(transport='streamable-http')
-    # mcp.run(transport='stdio')
+    # mcp.run(transport='streamable-http')
+    mcp.run(transport='stdio')
 
 ## not supported in practice -> skip
 # @mcp.resource("echo://{message}")

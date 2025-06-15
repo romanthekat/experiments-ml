@@ -18,17 +18,22 @@ from reminders import add_reminder
 
 mcp_client = MultiServerMCPClient(
     {
-        # "math": {
-        #     "command": "python",
-        #     # Make sure to update to the full absolute path to your math_server.py file
-        #     "args": ["/path/to/math_server.py"],
-        #     "transport": "stdio",
-        # },
-        "r-notes": {
-            # make sure you start mcp server on port 8000 using `uv run mcp_server.py`
-            "url": "http://localhost:8000/mcp/",
-            "transport": "streamable_http",
+        "r-notes-stdio": {
+            "command": "uv",
+            # Make sure to update to the full absolute path to your mcp_server.py file
+            "args": [
+                "--directory",
+                "./",
+                "run",
+                "mcp_server.py"
+            ],
+            "transport": "stdio",
         }
+        # "r-notes-http": {
+        #     # make sure you start mcp server on port 8000 using `uv run mcp_server.py`
+        #     "url": "http://localhost:8000/mcp/",
+        #     "transport": "streamable_http",
+        # }
     }
 )
 
