@@ -41,8 +41,6 @@ mcp_client = MultiServerMCPClient(
 async def main():
     load_dotenv()
 
-    mcp_tools = await mcp_client.get_tools()
-
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
@@ -50,6 +48,7 @@ async def main():
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
+    mcp_tools = await mcp_client.get_tools()
     tools = [
         # read_context_note, read_personal_index_note,
         # get_notes_by_level,
