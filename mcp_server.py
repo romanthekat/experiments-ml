@@ -21,7 +21,7 @@ def read_context_note():
 def read_personal_index_note():
     """
     Returns 'personal index note' content.
-    Personal index note is an index note, which refers to things many 'important' notes, can be used as an entry point to look up things.
+    Personal index note is a special note, which refers to things many 'important' notes, can be used as an entry point to look up things.
     :return: personal index note content as string
     """
     return read_by_zk_note_name("10 Σ personal index")

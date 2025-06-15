@@ -4,7 +4,25 @@ import subprocess
 from langchain_core.tools import tool
 
 
-# TODO create custom MCP server out of this below instead (?)
+@tool
+def read_context_note():
+    """
+    Returns 'context note' content.
+    'Context note' is an important note, refers to things that are actual 'at the moment overall'.
+    :return: 'context' note content as string
+    """
+    return read_by_zk_note_name.invoke("0a context")
+
+
+@tool
+def read_personal_index_note():
+    """
+    Returns 'personal index note' content.
+    Personal index note is a special note, which refers to things many 'important' notes, can be used as an entry point to look up things.
+    :return: personal index note content as string
+    """
+    return read_by_zk_note_name.invoke("10 Σ personal index")
+
 
 @tool
 def get_notes_by_level(level: int = 1) -> str:
@@ -61,28 +79,8 @@ def read_by_zk_note_name(zk_note_name: str) -> str:
     return note_content
 
 
-@tool
-def read_context_note():
-    """
-    Returns 'context note' content.
-    'Context note' is an important note, refers to things that are actual 'at the moment overall'.
-    :return: 'context' note content as string
-    """
-    return read_by_zk_note_name.invoke("0a context")
-
-
-@tool
-def read_personal_index_note():
-    """
-    Returns 'personal index note' content.
-    Personal index note is an index note, which refers to things many 'important' notes, can be used as an entry point to look up things.
-    :return: personal index note content as string
-    """
-    return read_by_zk_note_name.invoke("10 Σ personal index")
-
-
 def _get_notes_folder_path():
-    return os.getenv("NOTES")
+    return os.getenv("NOTES_PATH")
 
 
 def _get_note_path(note_name: str):

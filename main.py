@@ -10,6 +10,7 @@ from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_community.tools import DuckDuckGoSearchRun, BraveSearch, WikipediaQueryRun
 from langchain_community.tools import FileSearchTool, ReadFileTool
+from dotenv import load_dotenv
 
 from reminders import add_reminder
 
@@ -21,6 +22,8 @@ def print_in_color(text: str) -> None:
 
 
 def main():
+    load_dotenv()
+
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
