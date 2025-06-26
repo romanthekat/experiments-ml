@@ -9,7 +9,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_community.tools import DuckDuckGoSearchRun, BraveSearch, WikipediaQueryRun
-from langchain_community.tools import FileSearchTool, ReadFileTool
+from langchain_community.tools import FileSearchTool, ReadFileTool, HumanInputRun
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
 import asyncio
@@ -44,7 +44,7 @@ async def main():
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
-        temperature=0.2,  # lower then recommended default 0.6
+        temperature=0.1,  # lower then recommended default 0.6
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
@@ -57,12 +57,14 @@ async def main():
         # read_permanent_agent_memory, write_permanent_agent_memory, save_to_notes_storage,
         # internet tools start here
         # WikipediaQueryRun
+        # HumanInputRun,
         *mcp_tools
     ]
 
     system_message = SystemMessage(
         content="You are helpful assistant to work with personal notes in zettelkasten markdown files. " \
                 "CALL TOOL 'read_permanent_memory' in the beginning to refresh your permanent memory." \
+                "Before you answer, assess the uncertainty of your response. If it's greater than 0.1, ask me clarifying questions until the uncertainty is 0.1 or lower." \
                 "Be succinct in thinking process.")
 
     agent_executor = create_react_agent(model, tools, prompt=system_message, checkpointer=memory)

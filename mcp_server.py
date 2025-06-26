@@ -1,4 +1,5 @@
 import subprocess
+from json.encoder import encode_basestring_ascii
 
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
@@ -9,7 +10,7 @@ mcp = FastMCP("r-notes")
 
 
 @mcp.tool()
-def add_reminder(title: str, notes: str) -> str:
+def add_reminder(title: str, notes: str, when: str = "") -> str:
     """
     Adds a reminder for the human operator, using simple text inputs only.
     This tool supports alphanumeric, spaces, and brackets in 'title' and 'notes' - DO NOT USE OTHER SPECIAL SYMBOLS.
@@ -17,9 +18,10 @@ def add_reminder(title: str, notes: str) -> str:
 
     :param title: reminder title **without special symbols or punctuation**. for example: check [[0 inbox]]
     :param notes: reminder notes **without special symbols or punctuation**
+    :param when: optional parameter with the following possible values: today, tomorrow, evening, anytime, someday, a date string, or a date time string
     :return: command execution output
     """
-    url_to_add_note = f'open \"things:///add?title={title}&notes={notes}&tags=agent\"'
+    url_to_add_note = f'open \"things:///add?title={title}&notes={notes}&tags=agent&when={when}"'
     return subprocess.check_output(url_to_add_note, shell=True, text=True)
 
 
