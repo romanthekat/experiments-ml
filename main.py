@@ -71,7 +71,7 @@ async def main():
     config = {"configurable": {"thread_id": "some thread id", "recursion_limit": 42}}
 
     while True:
-        print("-" * 32)
+        print("-" * 42)
         user_message = input("\n>> ")
         input_to_model = {"messages": [HumanMessage(content=f"{user_message}")]}
         ## direct invoke
