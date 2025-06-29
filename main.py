@@ -1,6 +1,3 @@
-from tools_files import read_permanent_agent_memory, write_permanent_agent_memory
-from tools_notes import read_context_note, read_by_zk_note_name, find_relevant_notes_by_zk_note_name, \
-    simple_search_note, get_notes_by_level, read_personal_index_note, save_to_notes_storage
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.tools import tool
@@ -44,7 +41,7 @@ async def main():
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
-        temperature=0.05,  # lower than recommended default 0.6
+        temperature=0.5,  # a tad lower than recommended default 0.6
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
