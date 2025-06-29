@@ -133,12 +133,12 @@ def save_to_notes_storage(text: str):
     """
     Saves text to notes storage for human operator. Uses a Markdown format.
     Use when you need to save information to the notes' storage, when asked to 'save it for me' and similar requests.
-    Use #tags if you see it useful, add them in the beginning of the text.
+    Use #tags if you see it useful, add them at the beginning of the text.
     :param text: text to write, overriding the note
     """
     note_path = f"{_get_notes_folder_path()}/0aa context generated.md"
     with open(note_path, "w") as file:
-        header = """# 0aa context generated #index #flag"""
+        header = """# 0aa context generated #index #flag #ai\n"""
         file.write(header + text)
 
 
