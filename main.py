@@ -44,7 +44,7 @@ async def main():
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
-        temperature=0.1,  # lower then recommended default 0.6
+        temperature=0.05,  # lower than recommended default 0.6
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
@@ -71,6 +71,7 @@ async def main():
     config = {"configurable": {"thread_id": "some thread id", "recursion_limit": 42}}
 
     while True:
+        print("-" * 32)
         user_message = input("\n>> ")
         input_to_model = {"messages": [HumanMessage(content=f"{user_message}")]}
         ## direct invoke

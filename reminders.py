@@ -21,8 +21,8 @@ def add_reminder(title: str, notes: str) -> str:
 # @tool
 def get_reminders_for_today() -> str:
     """
-    Returns all reminders for today, in wikilink format.
-    :return: list of reminders for today, in wikilink format, f.e. "[[0aa context]]"
+    Returns all reminders for today.
+    :return: list of reminders for today"
     """
     url_to_get_reminders = "things:///show?id=today"
     return subprocess.check_output(url_to_get_reminders, shell=True, text=True)
