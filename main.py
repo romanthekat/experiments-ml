@@ -40,7 +40,7 @@ async def main():
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
-        temperature=0.1,  # recommended default 0.6 for thinking and 0.7 for /no_think
+        temperature=0.6,  # recommended default 0.6 for thinking and 0.7 for /no_think
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
