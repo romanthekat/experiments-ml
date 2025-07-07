@@ -4,7 +4,7 @@ from json.encoder import encode_basestring_ascii
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 
-from tools_notes import _get_notes_folder_path, _get_note_path, _read_text_file
+from helpers import _get_notes_folder_path, _get_note_path, _read_text_file
 
 mcp = FastMCP("r-notes")
 

@@ -37,11 +37,10 @@ mcp_client = MultiServerMCPClient(
 
 async def main():
     load_dotenv()
-
     ## main logic
     model = ChatOllama(
         model="qwen3:30b-a3b-q8_0",
-        temperature=0.6,  # recommended default 0.6 for thinking and 0.7 for /no_think
+        temperature=0.1,  # recommended default 0.6 for thinking and 0.7 for /no_think
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
@@ -69,7 +68,7 @@ async def main():
 
     while True:
         print("-" * 42)
-        user_message = input("\n>> ")
+        user_message = input(">> ")
         input_to_model = {"messages": [HumanMessage(content=f"{user_message}")]}
         ## direct invoke
         # response = agent_executor.invoke(input_to_model, config=config)
