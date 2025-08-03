@@ -39,8 +39,9 @@ async def main():
     load_dotenv()
     ## main logic
     model = ChatOllama(
-        model="qwen3:30b-a3b-q8_0",
-        temperature=0.6,  # recommended default 0.6 for thinking and 0.7 for /no_think
+        # model="mistral-small3.2:24b-instruct-2506-q8_0",
+        model="qwen3:30b-a3b-instruct-2507-q8_0",
+        temperature=0.5,  # recommended default 0.6 for thinking and 0.7 for /no_think
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
