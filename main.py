@@ -65,8 +65,7 @@ async def main():
         content="You are helpful assistant to work with personal notes in zettelkasten markdown files. " \
                 "CALL TOOL 'read_permanent_memory' in the beginning to refresh your permanent memory." \
                 "Before you answer, assess the uncertainty of your response. If it's greater than 0.1, ask me clarifying questions until the uncertainty is 0.1 or lower." \
-                "Be succinct in thinking process." \
-                "Don't use markdown tables in responses unless requested.")
+                "Be succinct in thinking process.")
 
     agent_executor = create_react_agent(model, tools, prompt=system_message, checkpointer=memory)
     config = {"configurable": {"thread_id": "some thread id", "recursion_limit": 42}}
