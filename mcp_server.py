@@ -1,3 +1,5 @@
+import os
+import shlex
 import subprocess
 from json.encoder import encode_basestring_ascii
 
@@ -93,7 +95,10 @@ def simple_search_note(text: str) -> str:
     :return: list of zk note names or empty string if nothing found, f.e. "0a context" or "14.2 deutsch language"
     """
     folder_to_search_in = _get_notes_folder_path()
-    command = f'ag "{text}" -l -i "{folder_to_search_in}" | sed "s=.*/=="'
+    # command = f'ag "{text}" --nocolor --nopager -l -i "{folder_to_search_in}" | sed "s=.*/=="' # stopped working from subprocess, successfully returns nothing
+    command = f'grep "{text}" -Rl "{folder_to_search_in}" | sed "s=.*/=="'
+    # command = f'grep "{text}" -Rl "{folder_to_search_in}" | sort -n | sed "s=.*/=="'
+    # command = f'find "{folder_to_search_in}" -iname "*{text}*.md" | sort -n | sed "s=.*/=="'
     output = subprocess.check_output(command, shell=True, text=True)
     return output.replace(".md", "")
 

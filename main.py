@@ -40,8 +40,11 @@ async def main():
     ## main logic
     model = ChatOllama(
         # model="mistral-small3.2:24b-instruct-2506-q8_0",
-        model="qwen3:30b-a3b-instruct-2507-q8_0",
-        temperature=0.5,  # recommended default 0.6 for thinking and 0.7 for /no_think
+        # model="qwen3:30b-a3b-instruct-2507-q8_0",
+        # model="gpt-oss:20b",
+        model="gpt-oss:120b",
+        # temperature=0.5, # recommended default 0.6 for thinking and 0.7 for /no_think
+        temperature=1,  # recommended for gpt-oss
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
@@ -62,7 +65,8 @@ async def main():
         content="You are helpful assistant to work with personal notes in zettelkasten markdown files. " \
                 "CALL TOOL 'read_permanent_memory' in the beginning to refresh your permanent memory." \
                 "Before you answer, assess the uncertainty of your response. If it's greater than 0.1, ask me clarifying questions until the uncertainty is 0.1 or lower." \
-                "Be succinct in thinking process.")
+                "Be succinct in thinking process." \
+                "Don't use markdown tables in responses unless requested.")
 
     agent_executor = create_react_agent(model, tools, prompt=system_message, checkpointer=memory)
     config = {"configurable": {"thread_id": "some thread id", "recursion_limit": 42}}
