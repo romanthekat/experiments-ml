@@ -27,25 +27,21 @@ def add_reminder(title: str, notes: str, when: str = "") -> str:
     return subprocess.check_output(url_to_add_note, shell=True, text=True)
 
 
-## High level Notes
 @mcp.tool()
-def read_context_note():
+def read_main_context():
     """
-    Returns 'context note' content.
-    'Context note' is an important note, refers to things that are actual 'at the moment overall'.
-    :return: 'context' note content as string
-    """
-    return read_by_zk_note_name("0a context")
+    Reads and returns two main context notes, joining the content of both: 'context note' and 'personal index note'.
+    'Context note' is an important note, which refers to things that are actual 'at the moment overall'.
+    'Personal index note' is a special note, which refers to things many 'important' notes.
 
+    Use this tool to get a bird's eye view on a notes collection, a good entry point to look things up.
 
-@mcp.tool()
-def read_personal_index_note():
+    :return: 'context note' + 'personal index note' content as string
     """
-    Returns 'personal index note' content.
-    Personal index note is a special note, which refers to things many 'important' notes, can be used as an entry point to look up things.
-    :return: personal index note content as string
-    """
-    return read_by_zk_note_name("10 Σ personal index")
+    context_note = read_by_zk_note_name("0a context")
+    personal_note = read_by_zk_note_name("10 Σ personal index")
+
+    return context_note + "\n" + personal_note
 
 
 # Permanent memory
@@ -55,7 +51,9 @@ def read_permanent_agent_memory():
     Returns permanent memory of the agent, which can be shared between runs.
     Use it whenever you see something important in the permanent memory, that can be handy for you in the next runs.
     To be used in combination with write_permanent_memory. Use as often as you see fit.
-    ALWAYS READ IT IN THE BEGINNING OF YOUR RUNS.
+
+    ALWAYS READ IT AT THE BEGINNING OF YOUR RUNS.
+
     :return: permanent memory as string
     """
     with open("permanent_memory.txt", "r") as file:
@@ -67,6 +65,7 @@ def write_permanent_agent_memory(text: str):
     """
     Writes permanent memory for the LLM/AI agent, which can be shared between runs.
     To be used in combination with read_permanent_memory. Use as often as you see fit.
+
     :param text: text to write, OVERRIDING original data.
     :return: None
     """
@@ -79,6 +78,9 @@ def write_permanent_agent_memory(text: str):
 def get_notes_by_level(level: int = 1) -> str:
     """
     Returns subset of notes, limited by top notes by given level. Level generally doesn't exceed 4-5.
+
+    Use this tool to get a very high-level overview of which notes are there in the collection.
+
     :param level: positive number, level of notes to return, f.e. 1 for top level notes, 2 for top level notes of level 1 and level 2, etc.
     :return: list of zk note names in wikilinks format, f.e. "[[0a context]]" or "[[11 blog]]"
     """
@@ -90,9 +92,10 @@ def get_notes_by_level(level: int = 1) -> str:
 @mcp.tool()
 def simple_search_note(text: str) -> str:
     """
-    Executes simple search in notes by a given text.
+    Executes a simple search in notes by a given text.
+
     :param text: a text to search by
-    :return: list of zk note names or empty string if nothing found, f.e. "0a context" or "14.2 deutsch language"
+    :return: list of zk note names or empty string if nothing is found, f.e. "0a context" or "14.2 deutsch language"
     """
     folder_to_search_in = _get_notes_folder_path()
     # command = f'ag "{text}" --nocolor --nopager -l -i "{folder_to_search_in}" | sed "s=.*/=="' # stopped working from subprocess, successfully returns nothing
@@ -107,6 +110,9 @@ def simple_search_note(text: str) -> str:
 def find_relevant_notes_by_zk_note_name(zk_note_name: str) -> str:
     """
     Returns notes which are relevant to a given note, in wikilink format.
+
+    Use when you need to find which other notes are related to a given note.
+
     :param zk_note_name: full note name in zettelkasten format, f.e. "0a context" or "14.2 deutsch language". IT NEVER includes .md extension.
     :return:
     """
@@ -120,6 +126,8 @@ def read_by_zk_note_name(zk_note_name: str) -> str:
     Returns note content by given note zk full name. f.e. "0a context" or "14.2 deutsch language".
     Note name must always be full, as mentioned in [[wikilinks]] entries.
     So that a link [[14.2 deutsch language]] means filename is '14.2 deutsch language'.
+
+    Use this tool to read a note content.
 
     :param zk_note_name: full note name in zettelkasten format, e.g. "0a context" or "14.2 deutsch language"
     :return: note content as string
