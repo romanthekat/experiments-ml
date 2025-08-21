@@ -38,8 +38,8 @@ def read_main_context():
 
     :return: 'context note' + 'personal index note' content as string
     """
-    context_note = read_by_zk_note_name("0a context")
-    personal_note = read_by_zk_note_name("10 Σ personal index")
+    context_note = read_note("0a context")
+    personal_note = read_note("10 Σ personal index")
 
     return context_note + "\n" + personal_note
 
@@ -107,21 +107,36 @@ def simple_search_note(text: str) -> str:
 
 
 @mcp.tool()
-def find_relevant_notes_by_zk_note_name(zk_note_name: str) -> str:
+def find_relevant_notes(zk_note_name: str) -> str:
     """
     Returns notes which are relevant to a given note, in wikilink format.
 
     Use when you need to find which other notes are related to a given note.
 
-    :param zk_note_name: full note name in zettelkasten format, f.e. "0a context" or "14.2 deutsch language". IT NEVER includes .md extension.
+    :param zk_note_name: full note name in zettelkasten format, f.e. "0a context" or "14.2 deutsch language". NEVER include .md extension.
     :return:
     """
     command = f"relevant-notes -notePath='{_get_note_path(zk_note_name)}'"
     return subprocess.check_output(command, shell=True, text=True)
 
 
+# unstable, output is too huge, so it gets truncated
+# @mcp.tool()
+def read_note_and_subtree(zk_note_name: str) -> str:
+    """
+    Reads note content and all notes in the same notes tree, by given note zk full name.
+
+    Use only if you need to load of related context for the given note, as it will return a huge number of tokens.
+
+    :param zk_note_name: full note name in zettelkasten format, f.e. "0a context" or "14.2 deutsch language". NEVER include .md extension.
+    :return: content of the requested note and all notes down in the same tree
+    """
+    command = f"rank-join -notesPath='{_get_notes_folder_path()}' -filterMainNote='{zk_note_name}'"
+    return subprocess.check_output(command, shell=True, text=True)
+
+
 @mcp.tool()
-def read_by_zk_note_name(zk_note_name: str) -> str:
+def read_note(zk_note_name: str) -> str:
     """
     Returns note content by given note zk full name. f.e. "0a context" or "14.2 deutsch language".
     Note name must always be full, as mentioned in [[wikilinks]] entries.
