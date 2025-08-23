@@ -2,6 +2,7 @@ import os
 import shlex
 import subprocess
 from json.encoder import encode_basestring_ascii
+from urllib.parse import quote
 
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
@@ -23,8 +24,11 @@ def add_reminder(title: str, notes: str, when: str = "") -> str:
     :param when: optional parameter with the following possible values: today, tomorrow, evening, anytime, someday, a date string, or a date time string
     :return: command execution output
     """
-    url_to_add_note = f'open \"things:///add?title={title}&notes={notes}&tags=agent&when={when}"'
-    return subprocess.check_output(url_to_add_note, shell=True, text=True)
+    safe_title = quote(title, safe='')
+    safe_notes = quote(notes, safe='')
+    safe_when = quote(when, safe='')
+    cmd = f'open "things:///add?title={safe_title}&notes={safe_notes}&tags=agent&when={safe_when}"'
+    return subprocess.check_output(cmd, shell=True, text=True)
 
 
 @mcp.tool()
@@ -85,7 +89,8 @@ def get_notes_by_level(level: int = 1) -> str:
     :return: list of zk note names in wikilinks format, f.e. "[[0a context]]" or "[[11 blog]]"
     """
     folder_to_search_in = _get_notes_folder_path()
-    command = f"get-notes-by-level -notesPath='{folder_to_search_in}' -level={level}"
+    notes_path = shlex.quote(folder_to_search_in)
+    command = f"get-notes-by-level -notesPath={notes_path} -level={level}"
     return subprocess.check_output(command, shell=True, text=True)
 
 
@@ -99,9 +104,11 @@ def simple_search_note(text: str) -> str:
     """
     folder_to_search_in = _get_notes_folder_path()
     # command = f'ag "{text}" --nocolor --nopager -l -i "{folder_to_search_in}" | sed "s=.*/=="' # stopped working from subprocess, successfully returns nothing
-    command = f'grep "{text}" -Rl "{folder_to_search_in}" | sed "s=.*/=="'
     # command = f'grep "{text}" -Rl "{folder_to_search_in}" | sort -n | sed "s=.*/=="'
     # command = f'find "{folder_to_search_in}" -iname "*{text}*.md" | sort -n | sed "s=.*/=="'
+    safe_text = shlex.quote(text)
+    safe_path = shlex.quote(folder_to_search_in)
+    command = f"grep -Rl {safe_text} {safe_path} | sed 's=.*/=='"
     output = subprocess.check_output(command, shell=True, text=True)
     return output.replace(".md", "")
 
@@ -116,7 +123,8 @@ def find_relevant_notes(zk_note_name: str) -> str:
     :param zk_note_name: full note name in zettelkasten format, f.e. "0a context" or "14.2 deutsch language". NEVER include .md extension.
     :return:
     """
-    command = f"relevant-notes -notePath='{_get_note_path(zk_note_name)}'"
+    note_path = shlex.quote(_get_note_path(zk_note_name))
+    command = f"relevant-notes -notePath={note_path}"
     return subprocess.check_output(command, shell=True, text=True)
 
 

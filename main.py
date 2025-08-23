@@ -10,6 +10,7 @@ from langchain_community.tools import DuckDuckGoSearchRun, BraveSearch, Wikipedi
 from langchain_community.tools import FileSearchTool, ReadFileTool, HumanInputRun
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
+import os
 import asyncio
 
 
@@ -39,15 +40,14 @@ mcp_client = MultiServerMCPClient(
 
 async def main():
     load_dotenv()
-    ## main logic
+    # main logic
+    llm_model = os.getenv("LLM_MODEL", "gpt-oss:120b")
+    llm_base_url = os.getenv("LLM_BASE_URL", "http://localhost:1234/v1")
+    llm_temperature = float(os.getenv("LLM_TEMPERATURE", "1"))
     model = ChatOpenAI(
-        # model="mistral-small3.2:24b-instruct-2506-q8_0",
-        # model="qwen3:30b-a3b-instruct-2507-q8_0",
-        # model="gpt-oss:20b",
-        model="gpt-oss:120b",
-        # temperature=0.5, # recommended default 0.6 for thinking and 0.7 for /no_think
-        temperature=1,  # recommended for gpt-oss
-        base_url="http://localhost:1234/v1",
+        model=llm_model,
+        temperature=llm_temperature,
+        base_url=llm_base_url,
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
@@ -71,7 +71,9 @@ async def main():
                 "Be succinct in thinking process.")
 
     agent_executor = create_react_agent(model, tools, prompt=system_message, checkpointer=memory)
-    config = {"configurable": {"thread_id": "some thread id", "recursion_limit": 42}}
+    thread_id = os.getenv("AGENT_THREAD_ID", "some thread id")
+    recursion_limit = int(os.getenv("AGENT_RECURSION_LIMIT", "42"))
+    config = {"configurable": {"thread_id": thread_id, "recursion_limit": recursion_limit}}
 
     while True:
         print("-" * 42)

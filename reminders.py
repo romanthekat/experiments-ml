@@ -1,4 +1,5 @@
 import subprocess
+from urllib.parse import quote
 
 from langchain_core.tools import tool
 
@@ -14,8 +15,10 @@ def add_reminder(title: str, notes: str) -> str:
     :param notes: reminder notes **without special symbols or punctuation**
     :return: command execution output
     """
-    url_to_add_note = f'open \"things:///add?title={title}&notes={notes}&tags=agent\"'
-    return subprocess.check_output(url_to_add_note, shell=True, text=True)
+    safe_title = quote(title, safe='')
+    safe_notes = quote(notes, safe='')
+    cmd = f'open "things:///add?title={safe_title}&notes={safe_notes}&tags=agent"'
+    return subprocess.check_output(cmd, shell=True, text=True)
 
 
 # @tool
