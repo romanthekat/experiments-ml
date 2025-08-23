@@ -15,6 +15,6 @@ def _read_text_file(file_path: str) -> str:
 
 
 def log(entry: str):
-    with open("~/Downloads/log.txt", "a") as file:
+    with open(os.path.expanduser("~/Downloads/log.txt"), "a") as file:
         file.write(entry)
         file.write("\n")

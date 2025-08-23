@@ -1,4 +1,5 @@
 from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.tools import tool
 from langchain_core.prompts import ChatPromptTemplate
@@ -10,6 +11,7 @@ from langchain_community.tools import FileSearchTool, ReadFileTool, HumanInputRu
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
 import asyncio
+
 
 from reminders import add_reminder
 
@@ -38,13 +40,14 @@ mcp_client = MultiServerMCPClient(
 async def main():
     load_dotenv()
     ## main logic
-    model = ChatOllama(
+    model = ChatOpenAI(
         # model="mistral-small3.2:24b-instruct-2506-q8_0",
         # model="qwen3:30b-a3b-instruct-2507-q8_0",
         # model="gpt-oss:20b",
         model="gpt-oss:120b",
         # temperature=0.5, # recommended default 0.6 for thinking and 0.7 for /no_think
         temperature=1,  # recommended for gpt-oss
+        base_url="http://localhost:1234/v1",
     )
     # search = DuckDuckGoSearchRun()
     memory = MemorySaver()
