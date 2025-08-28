@@ -12,7 +12,8 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
 import os
 import asyncio
-
+from rich.panel import Panel
+from rich.console import Console
 
 from reminders import add_reminder
 
@@ -75,9 +76,13 @@ async def main():
     recursion_limit = int(os.getenv("AGENT_RECURSION_LIMIT", "42"))
     config = {"configurable": {"thread_id": thread_id, "recursion_limit": recursion_limit}}
 
+    console = Console()
+
     while True:
         print("-" * 42)
         user_message = input(">> ")
+        console.print(Panel(user_message, title="Input", title_align="left"))
+
         input_to_model = {"messages": [HumanMessage(content=f"{user_message}")]}
         ## direct invoke
         # response = agent_executor.invoke(input_to_model, config=config)
