@@ -80,7 +80,7 @@ async def main():
 
     while True:
         print("-" * 42)
-        user_message = input(">> ")
+        user_message = input(">> ").strip()
         console.print(Panel(user_message, title="Input", title_align="left"))
 
         input_to_model = {"messages": [HumanMessage(content=f"{user_message}")]}
