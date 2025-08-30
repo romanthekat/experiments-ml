@@ -56,9 +56,9 @@ async def interactive_loop() -> None:
     console = Console()
     agent = await build_agent()
 
-    thread_id = os.getenv("AGENT_THREAD_ID", "some thread id")
+    # thread_id = os.getenv("AGENT_THREAD_ID", "some thread id")
     # recursion_limit = int(os.getenv("AGENT_RECURSION_LIMIT", "42"))
-    console.print(Panel(f"[blue]pydantic-ai agent ready"))
+    console.print(Panel("[blue]pydantic-ai agent ready"))
 
     message_history = []
     while True:
