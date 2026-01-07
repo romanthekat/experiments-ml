@@ -40,3 +40,8 @@ Uses uv for environment, dotenv for config, and a local OpenAI/Ollama-compatible
 ## Tests (optional)
 - A trivial smoke test can be run without external services:
   - uv run python -m unittest -v test_smoke.py
+
+## Pydantic-AI Versions
+In addition to the LangGraph `main.py`, there are versions implemented using [Pydantic-AI](https://ai.pydantic.dev/):
+- `main_pydantic.py`: Single agent setup with MCP tools.
+- `main_pydantic_moe.py`: Multi-agent "Mixture of Experts" setup where a Facilitator orchestrates a discussion between an Analyst, Strategist, and Critic.

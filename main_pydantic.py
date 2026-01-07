@@ -75,8 +75,7 @@ async def interactive_loop() -> None:
             result = await agent.run(user_message,
                                      message_history=message_history,)
             message_history = result.all_messages()
-            output = getattr(result, "output", None) or str(result)
-            console.print(Panel(str(output), title="Assistant", title_align="left"))
+            console.print(Panel(str(result.output), title="Assistant", title_align="left"))
         except Exception as e:
             console.print(Panel(f"Error: {e}", title="Assistant", title_align="left"))
 
